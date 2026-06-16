@@ -76,7 +76,7 @@ router.get('/test-search', async (req: HTTPRequest) => {
   const result = await searchLyrics(cfg, title, artist, '', 0);
   return jsonResponse({
     success: !!result,
-    preview: result ? result.lyric.substring(0, 200) : null,
+    preview: result ? result.lyric : null,
   });
 });
 
