@@ -1,0 +1,14 @@
+{
+  "name": "歌词搜索",
+  "version": "1.0.0",
+  "description": "从 lrclib.net 或自定义 API 自动搜索歌词，当歌曲无歌词时由服务端自动调用",
+  "author": "Songloft Team",
+  "entryPath": "lyrics",
+  "main": "main.js",
+  "minHostVersion": "2.6.0",
+  "permissions": [
+    "storage"
+  ],
+  "entryHash": "",
+  "zipHash": ""
+}
