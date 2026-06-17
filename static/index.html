@@ -46,36 +46,36 @@ select{width:auto;min-width:120px;cursor:pointer}
         <span class="switch-row-subtitle">开启后自动为无歌词的歌曲搜索歌词</span>
       </div>
       <label class="switch">
-        <input type="checkbox" id="enabled">
+        <input type="checkbox" id="enabled" aria-label="启用歌词搜索">
         <span class="switch-track"></span>
         <span class="switch-thumb"></span>
       </label>
     </div>
     <div class="row">
-      <label>提供商</label>
-      <select id="provider">
+      <label for="provider">提供商</label>
+      <select id="provider" aria-label="歌词提供商">
         <option value="lrclib">lrclib.net</option>
         <option value="custom">自定义 API</option>
       </select>
     </div>
     <div class="url-row" id="urlRow" style="display:none">
-      <input type="text" id="customUrl" placeholder="https://your-lrcapi.example.com">
+      <input type="text" id="customUrl" placeholder="https://your-lrcapi.example.com" aria-label="自定义 API 地址">
     </div>
   </div>
 
   <div style="display:flex;gap:8px">
     <button class="btn btn-filled" id="saveBtn" onclick="save()">保存</button>
   </div>
-  <div class="status" id="saveStatus"></div>
+  <div class="status" id="saveStatus" aria-live="polite"></div>
 
   <div class="card" style="margin-top:16px">
     <h2>测试搜索</h2>
     <div class="test-row">
-      <input type="text" id="testTitle" placeholder="歌曲名" value="Bohemian Rhapsody">
-      <input type="text" id="testArtist" placeholder="艺术家" value="Queen">
+      <input type="text" id="testTitle" placeholder="歌曲名" value="Bohemian Rhapsody" aria-label="测试歌曲名">
+      <input type="text" id="testArtist" placeholder="艺术家" value="Queen" aria-label="测试艺术家">
       <button class="btn btn-outlined" id="testBtn" onclick="testSearch()">测试</button>
     </div>
-    <div class="status" id="testStatus"></div>
+    <div class="status" id="testStatus" aria-live="polite"></div>
     <div class="preview" id="preview"></div>
   </div>
 </div>
