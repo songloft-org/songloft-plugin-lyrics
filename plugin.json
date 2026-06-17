@@ -10,8 +10,7 @@
   "main": "main.js",
   "minHostVersion": "2.6.0",
   "permissions": [
-    "storage",
-    "network"
+    "storage"
   ],
   "updateUrl": "https://raw.githubusercontent.com/songloft-org/songloft-plugin-lyrics/main/plugin.json",
   "download_url": "https://github.com/songloft-org/songloft-plugin-lyrics/releases/download/v1.0.0/lyrics.jsplugin.zip",
