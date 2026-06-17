@@ -82,12 +82,11 @@ select{width:auto;min-width:120px;cursor:pointer}
 
 <script>
 const $ = s => document.getElementById(s);
-const { apiGet, apiPost } = window.SongloftPlugin || {};
+const { apiGet, apiPost, apiPut } = window.SongloftPlugin || {};
 
 async function api(method, path, body) {
-  if (method === 'GET') {
-    return await apiGet(path);
-  }
+  if (method === 'GET') return await apiGet(path);
+  if (method === 'PUT') return await apiPut(path, body);
   return await apiPost(path, body);
 }
 
