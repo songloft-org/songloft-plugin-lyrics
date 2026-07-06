@@ -1,18 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
-  <circle cx="128" cy="128" r="128" fill="#E3EEFF"/>
-
-  <!-- 文档主体 -->
-  <rect x="72" y="48" width="112" height="160" rx="16" ry="16" fill="#3B6FE0"/>
-
-  <!-- 歌词文本行（镂空） -->
-  <rect x="96" y="80" width="64" height="10" rx="5" fill="#E3EEFF"/>
-  <rect x="96" y="104" width="48" height="10" rx="5" fill="#E3EEFF"/>
-  <rect x="96" y="128" width="56" height="10" rx="5" fill="#E3EEFF"/>
-  <rect x="96" y="152" width="36" height="10" rx="5" fill="#E3EEFF"/>
-
-  <!-- 音符装饰 -->
-  <circle cx="178" cy="174" r="30" fill="#E3EEFF"/>
-  <ellipse cx="170" cy="182" rx="11" ry="8" fill="#3B6FE0"/>
-  <rect x="178" y="152" width="5" height="32" rx="2" fill="#3B6FE0"/>
-  <path d="M183 152 c0 0 12-4 12-14" stroke="#3B6FE0" stroke-width="5" stroke-linecap="round" fill="none"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <rect width="128" height="128" rx="24" fill="#4F46E5"/>
+  <path d="M32 88V52c0-4.4 3.6-8 8-8h4c2.2 0 4-1.8 4-4v-4c0-2.2-1.8-4-4-4h-4c-8.8 0-16 7.2-16 16v36c0 8.8 7.2 16 16 16h56c8.8 0 16-7.2 16-16V52c0-8.8-7.2-16-16-16h-4c-2.2 0-4 1.8-4 4v4c0 2.2 1.8 4 4 4h4c4.4 0 8 3.6 8 8v36c0 4.4-3.6 8-8 8H40c-4.4 0-8-3.6-8-8z" fill="white"/>
+  <path d="M56 32v48c0 4.4 3.6 8 8 8s8-3.6 8-8V32c0-4.4-3.6-8-8-8s-8 3.6-8 8z" fill="white"/>
+  <circle cx="96" cy="36" r="12" fill="#F59E0B"/>
+  <path d="M92 36l3 3 5-6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

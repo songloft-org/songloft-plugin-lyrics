@@ -1,0 +1,6 @@
+{
+    "name": "在线元数据",
+    "plugins": [
+        "https://raw.githubusercontent.com/skywolf520/songloft-plugin-lyrics/main/plugin.json"
+    ]
+}

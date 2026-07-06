@@ -1,91 +1,122 @@
-import type { LyricsConfig } from './config';
+/**
+ * LRClib 歌词搜索
+ * 保留原版 lrclib API 客户端（精确+模糊搜索）
+ * 作为 fallback 歌词源
+ */
 
-interface LrcLibResult {
-  id: number;
-  trackName: string;
-  artistName: string;
-  albumName: string;
-  duration: number;
-  instrumental: boolean;
-  plainLyrics: string | null;
-  syncedLyrics: string | null;
-}
+import { LyricResult, SongSearchResult, MusicSource } from './types';
+import { fetchJson, safeJsonParse, buildQueryString, appendQuery } from './utils';
 
-interface LyricPayload {
-  lyric: string;
-  tlyric?: string;
-  rlyric?: string;
-  lxlyric?: string;
-}
+/** lrclib API 基础地址 */
+const LRCLIB_BASE = 'https://lrclib.net/api';
 
-function getBaseUrl(cfg: LyricsConfig): string {
-  if (cfg.provider === 'custom' && cfg.customUrl) {
-    return cfg.customUrl.replace(/\/+$/, '');
+/**
+ * 通过 LRClib 搜索歌词
+ * @param query 搜索关键词
+ * @param duration 歌曲时长（可选，用于精确匹配）
+ * @param artistName 歌手名（可选）
+ * @param albumName 专辑名（可选）
+ */
+export async function searchLrcLib(
+  query: string,
+  duration?: number,
+  artistName?: string,
+  albumName?: string,
+): Promise<any[]> {
+  const params: Record<string, any> = {
+    q: query,
+  };
+  if (duration && duration > 0) {
+    params.duration = Math.round(duration);
   }
-  return 'https://lrclib.net';
+  if (artistName) {
+    params.artist_name = artistName;
+  }
+  if (albumName) {
+    params.album_name = albumName;
+  }
+
+  const url = appendQuery(`${LRCLIB_BASE}/search`, params);
+  const resp = await fetchJson<any[]>(url, {
+    headers: {
+      'User-Agent': 'Songloft/1.0 (https://songloft.app)',
+    },
+  });
+
+  // lrclib 返回的是数组
+  if (Array.isArray(resp)) {
+    return resp;
+  }
+
+  // 某些版本返回 { docs: [] } 格式
+  if (resp && Array.isArray(resp.docs)) {
+    return resp.docs;
+  }
+
+  return [];
 }
 
-function toPayload(data: LrcLibResult): LyricPayload | null {
-  const lyric = data.syncedLyrics || data.plainLyrics;
-  if (!lyric) return null;
-  return { lyric };
+/**
+ * 获取指定 ID 的歌词
+ */
+export async function getLrcLibLyric(id: number): Promise<LyricResult> {
+  const url = `${LRCLIB_BASE}/get/${id}`;
+  const data = await fetchJson<any>(url, {
+    headers: {
+      'User-Agent': 'Songloft/1.0 (https://songloft.app)',
+    },
+  });
+
+  return {
+    lyric: data.syncedLyrics || data.plainLyrics || null,
+    tlyric: null,
+    rlyric: null,
+    awlyric: null,
+  };
 }
 
-export async function searchLyrics(
-  cfg: LyricsConfig,
-  title: string,
-  artist: string,
-  album: string,
-  duration: number,
-): Promise<LyricPayload | null> {
-  const baseUrl = getBaseUrl(cfg);
-  const headers = { 'User-Agent': 'Songloft/1.0' };
+/**
+ * LRClib 音源实现
+ */
+export class LrcLibSource implements MusicSource {
+  readonly id = 'lrclib';
+  readonly name = 'LRClib';
 
-  // 先尝试精确匹配
-  if (title && artist) {
+  private baseUrl: string;
+
+  constructor(customUrl?: string) {
+    this.baseUrl = customUrl || LRCLIB_BASE;
+  }
+
+  async search(keyword: string, options?: { name?: string; artist?: string; album?: string; duration?: number }): Promise<SongSearchResult[]> {
     try {
-      const params = new URLSearchParams();
-      params.set('track_name', title);
-      params.set('artist_name', artist);
-      if (album) params.set('album_name', album);
-      if (duration > 0) params.set('duration', String(Math.round(duration)));
+      const results = await searchLrcLib(keyword, options?.duration, options?.artist, options?.album);
 
-      const resp = await fetch(`${baseUrl}/api/get?${params}`, { headers });
-      if (resp.ok) {
-        const data: LrcLibResult = await resp.json();
-        const payload = toPayload(data);
-        if (payload) {
-          songloft.log.info(`[lyrics] 精确匹配成功: ${artist} - ${title}`);
-          return payload;
-        }
-      }
-    } catch (e: any) {
-      songloft.log.warn(`[lyrics] 精确匹配失败: ${e.message || e}`);
+      return (results || []).slice(0, 10).map((item: any) => ({
+        name: item.trackName || item.name || '',
+        artist: item.artistName || item.artist || '',
+        album: item.albumName || item.album || '',
+        duration: item.duration ? item.duration * 1000 : 0,
+        id: String(item.id),
+        source: 'lrclib',
+      }));
+    } catch (e) {
+      songloft.log.warn('LRClib 搜索失败', String(e));
+      throw e;
     }
   }
 
-  // 降级到模糊搜索
-  try {
-    const params = new URLSearchParams();
-    if (title) params.set('track_name', title);
-    if (artist) params.set('artist_name', artist);
-    if (!params.toString()) return null;
-
-    const resp = await fetch(`${baseUrl}/api/search?${params}`, { headers });
-    if (!resp.ok) return null;
-
-    const results: LrcLibResult[] = await resp.json();
-    if (!results || results.length === 0) return null;
-
-    // 优先选有同步歌词的结果
-    const best = results.find((r) => r.syncedLyrics) || results[0];
-    const payload = toPayload(best);
-    if (payload) {
-      songloft.log.info(`[lyrics] 模糊搜索匹配: ${best.artistName} - ${best.trackName}`);
+  async getLyric(song: SongSearchResult): Promise<LyricResult> {
+    try {
+      return await getLrcLibLyric(parseInt(song.id));
+    } catch (e) {
+      songloft.log.warn('LRClib 获取歌词失败', String(e));
+      return { lyric: null, tlyric: null, rlyric: null, awlyric: null };
     }
-    return payload;
-  } catch (e: any) {
-    songloft.log.warn(`[lyrics] 模糊搜索失败: ${e.message || e}`);
-    return null;
+  }
+
+  async getCover(song: SongSearchResult): Promise<{ coverUrl: string | null; source: string }> {
+    // LRClib 不提供封面
+    return { coverUrl: null, source: 'lrclib' };
   }
 }
