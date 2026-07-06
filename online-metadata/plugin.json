@@ -1,0 +1,20 @@
+{
+  "$schema": "https://raw.githubusercontent.com/songloft-org/plugin-toolchain/main/schemas/plugin.schema.json",
+  "name": "在线元数据（歌词+封面）",
+  "version": "1.0.0",
+  "description": "聚合国内五大音乐平台（酷狗、酷我、网易云、QQ音乐、咪咕）+ LRClib 自动获取歌词和封面，当歌曲无歌词时由服务端自动调用",
+  "author": "Songloft Community",
+  "homepage": "https://github.com/songloft-org/songloft-plugin-online-metadata",
+  "license": "Apache-2.0",
+  "entryPath": "online-metadata",
+  "main": "main.js",
+  "minHostVersion": "2.6.0",
+  "permissions": [
+    "storage",
+    "songs.read",
+    "songs.write"
+  ],
+  "icon": "icon.svg",
+  "entryHash": "",
+  "zipHash": ""
+}

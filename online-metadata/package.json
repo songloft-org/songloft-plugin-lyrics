@@ -1,0 +1,20 @@
+{
+  "name": "songloft-plugin-online-metadata",
+  "version": "1.0.0",
+  "description": "多平台歌词+封面自动获取插件 for Songloft",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "songloft-plugin build",
+    "dev": "songloft-plugin dev",
+    "validate": "songloft-plugin validate"
+  },
+  "dependencies": {
+    "@songloft/plugin-sdk": "^2.6.0",
+    "isomorphic-git": "^1.38.6"
+  },
+  "devDependencies": {
+    "@songloft/plugin-builder": "^2.6.0",
+    "typescript": "^5.7.0"
+  }
+}
