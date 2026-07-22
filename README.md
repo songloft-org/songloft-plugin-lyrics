@@ -35,7 +35,7 @@
 
 | 方法 | 路径 | 说明 |
 |------|------|------|
-| GET | `/lyric-search?title=...&artist=...&album=...&duration=...` | 歌词搜索（由主程序 InvokeHTTP 调用） |
+| GET | `/lyric-search?title=...&artist=...&album=...&duration=...&fingerprint=...&isrc=...` | 歌词搜索（由主程序 InvokeHTTP 调用，fingerprint 和 isrc 为可选参数） |
 | GET | `/config` | 获取当前配置 |
 | PUT | `/config` | 更新配置 |
 | GET | `/test-search?title=...&artist=...` | 测试搜索 |
