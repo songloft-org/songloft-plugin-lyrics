@@ -1,6 +1,6 @@
 {
   "name": "songloft-plugin-lyrics",
-  "version": "2026.6.17",
+  "version": "2026.8.2",
   "private": true,
   "scripts": {
     "build": "songloft-plugin build",
