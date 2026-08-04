@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/songloft-org/plugin-toolchain/main/schemas/plugin.schema.json",
   "name": "歌词搜索",
-  "version": "2026.8.2",
+  "version": "2026.8.4",
   "description": "从 lrclib.net 或自定义 API 自动搜索歌词，当歌曲无歌词时由服务端自动调用",
   "author": "Songloft Team",
   "homepage": "https://github.com/songloft-org/songloft-plugin-lyrics",
@@ -14,7 +14,7 @@
     "storage"
   ],
   "updateUrl": "https://raw.githubusercontent.com/songloft-org/songloft-plugin-lyrics/main/plugin.json",
-  "download_url": "https://github.com/songloft-org/songloft-plugin-lyrics/releases/download/v2026.8.2/lyrics.jsplugin.zip",
+  "download_url": "https://github.com/songloft-org/songloft-plugin-lyrics/releases/download/v2026.8.4/lyrics.jsplugin.zip",
   "entryHash": "",
   "zipHash": ""
 }
