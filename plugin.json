@@ -9,7 +9,7 @@
   "entryPath": "lyrics",
   "main": "main.js",
   "minHostVersion": "2.6.0",
-  "renderEngine": "webf",
+  "renderEngine": "webview",
   "permissions": [
     "storage"
   ],
