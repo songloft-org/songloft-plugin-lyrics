@@ -4,14 +4,18 @@ const CONFIG_KEY = 'lyrics_config';
 
 export interface LyricsConfig {
   enabled: boolean;
-  provider: 'lrclib' | 'custom';
+  provider: 'lrclib' | 'lrcapi' | 'custom';
   customUrl: string;
+  lrcapiUrl: string;
+  lrcapiAuth: string;
 }
 
 export const DEFAULT_CONFIG: LyricsConfig = {
   enabled: false,
   provider: 'lrclib',
   customUrl: '',
+  lrcapiUrl: '',
+  lrcapiAuth: '',
 };
 
 export async function loadConfig(): Promise<LyricsConfig> {
