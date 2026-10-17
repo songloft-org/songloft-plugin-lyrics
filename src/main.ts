@@ -1,5 +1,6 @@
 /// <reference types="@songloft/plugin-sdk" />
 import { createRouter, jsonResponse, parseQuery } from '@songloft/plugin-sdk';
+import type { HTTPRequest } from '@songloft/plugin-sdk';
 import { searchLyrics as searchLrclib } from './lrclib';
 import { searchLyrics as searchLrcapi } from './lrcapi';
 import { loadConfig, saveConfig, DEFAULT_CONFIG, type LyricsConfig } from './config';
@@ -35,7 +36,9 @@ router.get('/lyric-search', async (req: HTTPRequest) => {
     return jsonResponse({ error: 'lyrics search disabled' }, 503);
   }
 
-  const q = parseQuery(req.query);
+  // 宿主 url.Values.Encode 使用 + 表示空格；SDK 2.6 只做百分号解码。
+  // 先还原表单编码的空格，保留 %2B 表示的真实加号。
+  const q = parseQuery(req.query.replace(/\+/g, '%20'));
   const title = q.title || '';
   const artist = q.artist || '';
   const album = q.album || '';
@@ -81,7 +84,7 @@ router.put('/config', async (req: HTTPRequest) => {
 // 测试搜索（用于配置页面验证）
 router.get('/test-search', async (req: HTTPRequest) => {
   const cfg = await loadConfig();
-  const q = parseQuery(req.query);
+  const q = parseQuery(req.query.replace(/\+/g, '%20'));
   const title = q.title || 'Bohemian Rhapsody';
   const artist = q.artist || 'Queen';
   const result = cfg.provider === 'lrcapi'

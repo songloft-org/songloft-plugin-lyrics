@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "build": "songloft-plugin build",
-    "dev": "songloft-plugin dev"
+    "dev": "songloft-plugin dev",
+    "test": "node --test tests/*.test.mjs",
+    "typecheck": "tsc --noEmit",
+    "validate": "node scripts/validate-build.mjs"
   },
   "devDependencies": {
     "@songloft/plugin-builder": "^2.6.0",

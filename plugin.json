@@ -17,5 +17,6 @@
   "updateUrl": "https://raw.githubusercontent.com/songloft-org/songloft-plugin-lyrics/main/plugin.json",
   "download_url": "https://github.com/songloft-org/songloft-plugin-lyrics/releases/download/v2026.8.4/lyrics.jsplugin.zip",
   "entryHash": "",
-  "zipHash": ""
+  "zipHash": "",
+  "releaseSource": "52f75bb20765fcf65e8b594b59bf8001a3f7bfad"
 }
